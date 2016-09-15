@@ -1,8 +1,8 @@
-
-def request(context, flow):
-    if "application/x-www-form-urlencoded" in flow.request.headers["content-type"]:
-        frm = flow.request.get_form_urlencoded()
-        frm["mitmproxy"] = ["rocks"]
-        flow.request.set_form_urlencoded(frm)
-
-
+def request(flow):
+    if flow.request.urlencoded_form:
+        flow.request.urlencoded_form["mitmproxy"] = "rocks"
+    else:
+        # This sets the proper content type and overrides the body.
+        flow.request.urlencoded_form = [
+            ("foo", "bar")
+        ]

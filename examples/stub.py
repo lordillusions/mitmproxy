@@ -1,48 +1,87 @@
+import mitmproxy
 """
     This is a script stub, with definitions for all events.
 """
 
-def start(ctx):
-    """
-        Called once on script startup, before any other events.
-    """
-    ctx.log("start")
 
-def clientconnect(ctx, client_connect):
+def start():
+    """
+        Called once on script startup before any other events
+    """
+    mitmproxy.ctx.log("start")
+
+
+def configure(options, updated):
+    """
+        Called once on script startup before any other events, and whenever options changes.
+    """
+    mitmproxy.ctx.log("configure")
+
+
+def clientconnect(root_layer):
     """
         Called when a client initiates a connection to the proxy. Note that a
         connection can correspond to multiple HTTP requests
     """
-    ctx.log("clientconnect")
+    mitmproxy.ctx.log("clientconnect")
 
-def request(ctx, flow):
+
+def request(flow):
     """
         Called when a client request has been received.
     """
-    ctx.log("request")
+    mitmproxy.ctx.log("request")
 
-def response(ctx, flow):
+
+def serverconnect(server_conn):
+    """
+        Called when the proxy initiates a connection to the target server. Note that a
+        connection can correspond to multiple HTTP requests
+    """
+    mitmproxy.ctx.log("serverconnect")
+
+
+def responseheaders(flow):
+    """
+        Called when the response headers for a server response have been received,
+        but the response body has not been processed yet. Can be used to tell mitmproxy
+        to stream the response.
+    """
+    mitmproxy.ctx.log("responseheaders")
+
+
+def response(flow):
     """
        Called when a server response has been received.
     """
-    ctx.log("response")
+    mitmproxy.ctx.log("response")
 
-def error(ctx, flow):
+
+def error(flow):
     """
         Called when a flow error has occured, e.g. invalid server responses, or
         interrupted connections. This is distinct from a valid server HTTP error
         response, which is simply a response with an HTTP error code.
     """
-    ctx.log("error")
+    mitmproxy.ctx.log("error")
 
-def clientdisconnect(ctx, client_disconnect):
+
+def serverdisconnect(server_conn):
+    """
+        Called when the proxy closes the connection to the target server.
+    """
+    mitmproxy.ctx.log("serverdisconnect")
+
+
+def clientdisconnect(root_layer):
     """
         Called when a client disconnects from the proxy.
     """
-    ctx.log("clientdisconnect")
+    mitmproxy.ctx.log("clientdisconnect")
 
-def done(ctx):
+
+def done():
     """
         Called once on script shutdown, after any other events.
     """
-    ctx.log("done")
+    mitmproxy.ctx.log("done")
