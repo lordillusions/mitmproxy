@@ -182,7 +182,8 @@ def load(file_handle):
         raise ValueError("not a tnetstring: missing or invalid length prefix")
 
     data = file_handle.read(int(data_length))
-    data_type = file_handle.read(1)[0]
+    # data_type = file_handle.read(1)[0]
+    data_type = file_handle.read(1)
 
     return parse(data_type, data)
 
